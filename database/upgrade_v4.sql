@@ -51,9 +51,6 @@ INSERT IGNORE INTO permissions(role,permission_key) VALUES
 ('Admin','notifications.manage'),('Admin','permissions.manage'),('Admin','tokens.manage'),
 ('IT Staff','notifications.manage'),('IT Staff','health.view');
 
-INSERT IGNORE INTO users(name,username,email,password_hash,role)
-SELECT 'IT Support Staff','itstaff','itstaff@campus.local','$2y$12$.dZLoNalaghB8ZMMGJMqGuwM8FE/fLAxrhEUR1XRiKrLHO22K.k.e','IT Staff'
-WHERE NOT EXISTS (SELECT 1 FROM users WHERE username='itstaff');
 
 INSERT IGNORE INTO notification_preferences(user_id)
 SELECT id FROM users;

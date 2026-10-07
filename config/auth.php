@@ -4,7 +4,7 @@ session_start();
 
 function require_login(): void {
     if (empty($_SESSION['user_id'])) {
-        header('Location: /campus-network/login.php');
+        header('Location: /Campus_Network_Monitoring_System/login.php');
         exit;
     }
 }
