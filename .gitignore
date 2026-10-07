@@ -1,0 +1,32 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Local database / runtime data
+storage/
+uploads/
+backups/
+*.sqlite
+*.sqlite3
+*.db
+
+# Temporary files
+tmp/
+temp/
+cache/
+
+# IDE
+.vscode/
+.idea/
+
+# OS / editor files
+*.swp
+*.swo

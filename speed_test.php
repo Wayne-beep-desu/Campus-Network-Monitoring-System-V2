@@ -1,0 +1,4 @@
+<?php require_once __DIR__.'/config/auth.php'; require_login(); $page_title='Internet Speed Test'; include __DIR__.'/partials/header.php'; ?>
+<div class="hero compact"><div><div class="eyebrow">CONNECTIVITY CHECK</div><h1>Internet speed test</h1><p>Browser-side demo test for your current connection.</p></div></div>
+<div class="speed-panel"><div class="speed-orb" id="speedOrb"><div><span id="speedValue">0</span><small>Mbps</small></div></div><div id="speedStatus">Ready to test</div><div class="speed-metrics"><div><small>DOWNLOAD</small><b id="downloadResult">— Mbps</b></div><div><small>UPLOAD</small><b id="uploadResult">— Mbps</b></div><div><small>PING</small><b id="pingResult">— ms</b></div></div><button class="btn primary speed-btn" onclick="runSpeedTest()">⚡ START SPEED TEST</button><p class="speed-note">For production deployment, connect this screen to an authorized internal speed-test endpoint.</p></div>
+<?php include __DIR__.'/partials/footer.php'; ?>
