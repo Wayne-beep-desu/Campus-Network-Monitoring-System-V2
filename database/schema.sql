@@ -60,6 +60,9 @@ CREATE TABLE IF NOT EXISTS activity_logs (
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
+INSERT INTO users (name, username, password_hash, role)
+SELECT 'System Administrator', 'admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC9aG7x0rM6f9p1QmY3a', 'Admin'
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE username='admin');
 
 INSERT INTO devices
 (device_name, ip_address, mac_address, device_type, location, status, bandwidth_limit, download_mbps, upload_mbps)

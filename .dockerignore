@@ -1,0 +1,10 @@
+.git
+.git
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+storage/
+uploads/
+backups/

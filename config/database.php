@@ -1,13 +1,14 @@
 <?php
 declare(strict_types=1);
 
-$host = '127.0.0.1';
-$db   = 'campus_network';
-$user = 'root';
-$pass = '';
+$host = getenv('MYSQLHOST') ?: getenv('DB_HOST') ?: '127.0.0.1';
+$port = getenv('MYSQLPORT') ?: getenv('DB_PORT') ?: '3306';
+$db   = getenv('MYSQLDATABASE') ?: getenv('DB_NAME') ?: 'campus_network';
+$user = getenv('MYSQLUSER') ?: getenv('DB_USER') ?: 'root';
+$pass = getenv('MYSQLPASSWORD') ?: getenv('DB_PASSWORD') ?: '';
 $charset = 'utf8mb4';
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

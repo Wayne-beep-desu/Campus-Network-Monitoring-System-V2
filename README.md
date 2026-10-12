@@ -44,3 +44,12 @@ The original `api/monitor.php` is a demo simulator and produces generated values
 Added `wifi_clients.php` and `api/wifi_discovery.php` for authorized LAN discovery using the monitoring server's ARP table. Discovered clients are stored in `wifi_clients`, while Access Points are stored in `access_points`.
 
 **Important:** ARP/LAN discovery can show reachable clients but cannot reliably determine the exact Access Point/SSID association. For exact AP mapping, configure an integration adapter for the campus router/AP controller (for example MikroTik, UniFi, Omada, or another supported controller). Do not label generic ARP results as exact AP associations.
+
+
+## Railway deployment (Docker + MySQL)
+
+This repository includes a `Dockerfile` for Railway. Create a Railway project, deploy this project from GitHub (or upload/push this folder to a GitHub repository), and add a Railway MySQL service. In the web service Variables, map the database service's connection variables to `MYSQLHOST`, `MYSQLPORT`, `MYSQLDATABASE`, `MYSQLUSER`, and `MYSQLPASSWORD` if Railway does not automatically expose them. Never commit a real `.env` file or database passwords.
+
+For a new empty database, import `database/schema.sql` and then the required upgrade SQL files in dependency order: `upgrade.sql`, `upgrade_v3.sql`, `upgrade_v4.sql`, `upgrade_v2.sql`, and `upgrade_v5_wifi_discovery.sql`. Test this migration on a disposable database first; do not blindly rerun migrations against an existing database because some statements add columns/tables. Change all demo passwords before public access.
+
+The web app can be hosted online, but LAN/ARP discovery only sees devices visible from the Railway container and will not discover private campus LAN clients over the public internet. For real campus client discovery, deploy the web app online and connect it to an authorized on-campus agent or router/AP controller over a secure VPN/API integration.

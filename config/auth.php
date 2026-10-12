@@ -4,7 +4,12 @@ session_start();
 
 function require_login(): void {
     if (empty($_SESSION['user_id'])) {
-        header('Location: /Campus_Network_Monitoring_System/login.php');
+        $script = str_replace('\\', '/', (string)($_SERVER['SCRIPT_NAME'] ?? '/'))
+            ;
+        $base = preg_replace('~/(?:api|config)/[^/]+$~', '', $script);
+        $base = preg_replace('~/[^/]+\\.php$~', '', (string)$base);
+        $base = rtrim((string)$base, '/');
+        header('Location: ' . $base . '/login.php');
         exit;
     }
 }
