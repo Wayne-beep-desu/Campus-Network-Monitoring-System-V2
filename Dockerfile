@@ -8,6 +8,9 @@ RUN apt-get update \
     && a2enmod mpm_prefork rewrite headers \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apache2ctl -M 2>&1 | grep -E 'mpm_(event|worker|prefork)_module' \
+    && test "$(apache2ctl -M 2>&1 | grep -Ec 'mpm_(event|worker|prefork)_module')" -eq 1
+
 ENV APACHE_DOCUMENT_ROOT=/var/www/html
 
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
