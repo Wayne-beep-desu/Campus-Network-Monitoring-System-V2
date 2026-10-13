@@ -3,8 +3,12 @@ FROM php:8.3-apache
 
 RUN set -eux; \
     apt-get update; \
-    apt-get install -y --no-install-recommends default-mysql-client libsnmp-dev; \
+    apt-get install -y --no-install-recommends \
+        default-mysql-client \
+        libsnmp-dev; \
     docker-php-ext-install pdo_mysql mysqli snmp; \
+    a2dismod mpm_event mpm_worker || true; \
+    a2dismod mpm_prefork || true; \
     rm -f /etc/apache2/mods-enabled/mpm_*.load \
           /etc/apache2/mods-enabled/mpm_*.conf; \
     a2enmod mpm_prefork rewrite headers; \
