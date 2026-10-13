@@ -4,7 +4,9 @@ RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends default-mysql-client libsnmp-dev; \
     docker-php-ext-install pdo_mysql mysqli snmp; \
-    find /etc/apache2 -type f \( -name '*mpm_event*' -o -name '*mpm_worker*' -o -name '*mpm_prefork*' \) -print; \
+    for m in mpm_event mpm_worker mpm_prefork; do \
+        a2dismod "$m" || true; \
+    done; \
     rm -f /etc/apache2/mods-enabled/mpm_event.load \
           /etc/apache2/mods-enabled/mpm_worker.load \
           /etc/apache2/mods-enabled/mpm_prefork.load \
