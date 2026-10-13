@@ -1,14 +1,20 @@
-
 FROM php:8.3-apache
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends default-mysql-client libsnmp-dev \
-    && docker-php-ext-install pdo_mysql mysqli \
-    && docker-php-ext-install snmp \
-    && a2dismod mpm_event mpm_worker mpm_prefork \
-    && a2enmod mpm_prefork \
-    && a2enmod rewrite headers \
-    && rm -rf /var/lib/apt/lists/*
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends default-mysql-client libsnmp-dev; \
+    docker-php-ext-install pdo_mysql mysqli snmp; \
+    for m in mpm_event mpm_worker mpm_prefork; do \
+        a2dismod "$m" || true; \
+    done; \
+    rm -f /etc/apache2/mods-enabled/mpm_event.load \
+          /etc/apache2/mods-enabled/mpm_worker.load \
+          /etc/apache2/mods-enabled/mpm_prefork.load \
+          /etc/apache2/mods-enabled/mpm_event.conf \
+          /etc/apache2/mods-enabled/mpm_worker.conf \
+          /etc/apache2/mods-enabled/mpm_prefork.conf; \
+    a2enmod mpm_prefork rewrite headers; \
+    rm -rf /var/lib/apt/lists/*
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html
 
@@ -22,3 +28,5 @@ RUN chown -R www-data:www-data /var/www/html \
     && a2enconf app-directory
 
 EXPOSE 80
+
+CMD ["apache2-foreground"]
